@@ -104,6 +104,7 @@ class CalendarCard extends HTMLElement {
         .day-wrapper ha-icon {
           color: var(--paper-item-icon-color, #44739e);
         }
+        
       </style>
     `;
 
@@ -192,6 +193,24 @@ class CalendarCard extends HTMLElement {
   }
 
   /**
+   * check if event is today
+   * @param {*} event 
+   * @return {Boolean} 
+   */	
+  isEventToday(event){
+	return moment(event.startDateTime).isSame(moment(), 'day') ?  true :  false;
+  }
+ 
+  /**
+   * check if event is tomorrow
+   * @param {*} event 
+   * @return {Boolean} 
+   */	 
+  isEventTomorrow(event){
+	return moment(event.startDateTime).isSame(moment().add(1,'day'), 'day') ?  true :  false;
+  }  
+  
+  /**
    * generates the HTML for a single day
    * @param  {[type]} day    [description]
    * @param  {[type]} events [description]
@@ -220,7 +239,16 @@ class CalendarCard extends HTMLElement {
    */
   getEventHtml(event) {
     if(event.type) return '';
-
+	
+	// setting text color, if todayColor or tomorrowColor is set in config
+	let todayClass;
+	if (this.isEventToday(event) && this.config.todayColor!='')
+		todayClass = `<div style="color: ${this.config.todayColor}">`
+	else if (this.isEventTomorrow(event) && this.config.tomorrowColor!='')
+		todayClass = `<div style="color: ${this.config.tomorrowColor}">`
+	else
+		todayClass = `<div class="time">`
+	
     return `
           <div class="event-wrapper">
             <div class="event" ${this.getLinkHtml(event)}>
@@ -230,7 +258,7 @@ class CalendarCard extends HTMLElement {
                 </div>
                 ${this.getLocationHtml(event)}
               </div>
-              <div class="time">${this.getTimeHtml(event)}</div>
+              ${todayClass}${this.getTodayHtml(event)}${this.getTimeHtml(event)}</div>
             </div>
           </div>`;
   }
@@ -256,13 +284,26 @@ class CalendarCard extends HTMLElement {
    * @param {*} event 
    */
   getTimeHtml(event){
-    if (event.isFullDayEvent) return 'All day'
+    if (event.isFullDayEvent) return this.config.textAllDay
 
     const start = moment(event.startDateTime).format(this.config.timeFormat);
     const end = moment(event.endDateTime).format(this.config.timeFormat);
     return `${start} - ${end}`;
   }
 
+  /**
+   * generates HTML for showing if event is today or tomorrow
+   * @param {*} event 
+   */
+  getTodayHtml(event){
+	if(this.config.showTodayText){
+		if(this.isEventToday(event)) return `${this.config.textToday}&nbsp`;
+		else if(this.isEventTomorrow(event)) return `${this.config.textTomorrow}&nbsp`;
+		else return ''
+	} else return ''
+	
+  }
+  
   /**
    * generate the html for showing an event location
    * @param {*} event 
@@ -305,6 +346,10 @@ class CalendarCard extends HTMLElement {
       numberOfDays: 7,
       showColors: false,
       timeFormat: 'HH:mm',
+	  textAllDay: 'All day',
+	  textToday: '',
+	  textTomorrow: '',
+	  showTodayText: true,
       ...config
     };
   }
