@@ -268,7 +268,8 @@ class CalendarCard extends HTMLElement {
    * @return {[type]} [description]
    */
   getTitleHtml(event){
-    return this.config.showColors ? `<span style="color: ${event.color || ''};">&#9679;&nbsp;${event.title}</span>` : `${event.title}`;
+	let showDot = this.config.showDot ? `&#9679;&nbsp;` : ``  
+    return this.config.showColors ? `<span style="color: ${event.color || ''};">${showDot}${event.title}</span>` : `${event.title}`;
   }
 
   /**
@@ -350,6 +351,7 @@ class CalendarCard extends HTMLElement {
 	  textToday: '',
 	  textTomorrow: '',
 	  showTodayText: true,
+	  showDot: true,
       ...config
     };
   }
