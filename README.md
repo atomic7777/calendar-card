@@ -40,6 +40,12 @@ You should have setup Google calendar integration or Caldav integration in HomeA
 | entities | object | **Required** | List of calendars to display
 | timeFormat | string | **Optional** | `HH:mm` Format to show event time (see [here](https://momentjs.com/docs/#/displaying/format/) for options)
 | showColors | boolean | **Optional** | `false` Add event color marker to event summary
+| textAllDay | string | **Optional** | `All day` Custom or translated text for all day event
+| textToday | string | **Optional** | `none` Additional, custom "Today: " text for today events, to make it more visible
+| textTomorrow | string | **Optional** | `none` Additional, custom "Tomorrow: " text for tomorrow events, to make it more visible. No text if not set.
+| todayColor | string | **Optional** | `none` Color setting for today events, to make it more visible. Default when not set.
+| tomorrowColor | string | **Optional** | `none` Color setting for tomorrow events, to make it more visible. Default when not set.
+| showDot | boolean | **Optional** | `true` Add or remove the big dot in event title.
 
 <h2>Configuration</h2>
 Go to your config directory and create a www folder. Inside the www run
