@@ -11,7 +11,7 @@ class CalendarCard extends HTMLElement {
    * @return {[type]}      [description]
    */
   set hass(hass) {
-
+    
     // if we don't have the card yet then create it
     if (!this.content) {
       const card = document.createElement('ha-card');
@@ -20,12 +20,21 @@ class CalendarCard extends HTMLElement {
       this.content.className = 'calendar-card';
       card.appendChild(this.content);
       this.appendChild(card);
-      moment.locale(hass.language);
     }
 
     // save an instance of hass for later
     this._hass = hass;
+    this.wait();
+	}
+	
+	  wait() {
+    if(typeof(moment) == "undefined") {
+      setTimeout(() => this.wait(), 250);
+      return;
+    }
 
+	moment.locale(this._hass.language);
+	
     // save css rules
     this.cssRules = `
       <style>
