@@ -72,12 +72,13 @@ class CalendarCard extends HTMLElement {
 
         .day-wrapper .summary {
           font-size: 1.2em;
+		  cursor: pointer;
         }
 
         .day-wrapper .event-wrapper {
           margin-left: 10px;
           padding-top: 10px;
-          cursor: pointer;
+
         }
 
         .day-wrapper .event-wrapper:last-child {
@@ -298,10 +299,10 @@ class CalendarCard extends HTMLElement {
 	
     return `
           <div class="event-wrapper">
-            <div class="event" ${this.getLinkHtml(event)}>
+            <div class="event" >
               <div class="info">
-                <div class="summary">
-                  ${this.getTitleHtml(event)}
+                <div class="summary" >
+                  ${this.getTitleHtml(event)} 
                 </div>
                 ${this.getLocationHtml(event)}
               </div>
