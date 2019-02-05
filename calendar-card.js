@@ -369,7 +369,7 @@ class CalendarCard extends HTMLElement {
 
     if (event.location && event.locationAddress) {
       locationHtml += `
-          <a href="https://www.google.com/maps/place/${event.locationAddress}" target="_blank">
+          <a href="https://maps.google.com/?q=${event.locationAddress}" 
             ${event.location}
           </a>
         </div>`;
