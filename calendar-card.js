@@ -107,17 +107,25 @@ class CalendarCard extends HTMLElement {
             border-width: 1px 0 0 0;
             margin-top: -7px;
             margin-left: 5px;
+			width: 100%;
         }
 
         .day-wrapper ha-icon {
+		  height: 16px;
+          width: 16px;
           color: var(--paper-item-icon-color, #44739e);
         }
 
         .day-wrapper ha-icon.now {
             height: 12px;
             width: 12px;
-        }
-        
+			color: var(--paper-item-icon-color, #44739e);
+        } 
+        .day-wrapper ha-icon.current {
+            height: 12px;
+            width: 12px;
+			color: rgb(223, 76, 30);
+        }       		
       </style>
     `;
 
@@ -153,11 +161,20 @@ class CalendarCard extends HTMLElement {
     // convert each calendar object to a UI event
     let events = [].concat.apply([], allResults).map(event => new CalendarEvent(event));
     
+
     // show progress bar if turned on
     if (this.config.showProgressBar && events.length > 0 && moment().format('DD') === moment(events[0].startDateTime).format('DD')) {
-      let now = {startDateTime: moment().format(), type: 'now'}
-      events.push(now);
-    }
+		//checks if any event is running, if no, show the default progress bar
+		let noEventRunning=true;	
+		events.forEach(function(element, i) {
+		if(!element.isFullDayEvent && moment()>=moment(element.startDateTime) && moment()<=moment(element.endDateTime))
+			noEventRunning=false;
+		});
+		//show standard progress bar
+		if(noEventRunning || !this.config.showCurrentProgress) {
+			let now = {startDateTime: moment().format(), type: 'now'}
+			 events.push(now);}
+	}
 
     // sort events by date starting with soonest
     events.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
@@ -251,10 +268,25 @@ class CalendarCard extends HTMLElement {
    * @return {[type]}       [description]
    */
   getEventHtml(event) {
-    if(event.type) {
-        return `<ha-icon icon="mdi:circle" class="now"></ha-icon><hr class="now" />`;
+    //show standard progress bar
+	if(event.type) {
+		return `<ha-icon icon="mdi:circle" class="now"></ha-icon><hr class="now" />`;
     }
-	
+
+	// show current progress bar if event is running
+	let progress=''
+	let start = moment(event.startDateTime);
+	let end = moment(event.endDateTime);
+	let now = moment();
+	if (this.config.showCurrentProgress && this.config.showProgressBar && moment().format('DD') === moment(event.startDateTime).format('DD') && !event.isFullDayEvent) {
+		if(now>=start && now<=end){
+			let eventDuration = end.diff(start, 'minutes');
+			let eventProgress = now.diff(start, 'minutes');
+			let eventPercentProgress= Math.floor((eventProgress * 100)/eventDuration);
+			progress=`<ha-icon icon="mdi:circle" class="current" 	style="margin-left:${eventPercentProgress}%;"></ha-icon><hr class="now" />`;
+		}
+	}
+
 	// setting text color, if todayColor or tomorrowColor is set in config
 	let todayClass;
 	if (this.isEventToday(event) && this.config.todayColor!='')
@@ -275,7 +307,8 @@ class CalendarCard extends HTMLElement {
               </div>
               ${todayClass}${this.getTodayHtml(event)}${this.getTimeHtml(event)}</div>
             </div>
-          </div>`;
+          </div>
+			${progress}`;
   }
 
   /**
@@ -367,6 +400,7 @@ class CalendarCard extends HTMLElement {
 	  textTomorrow: '',
 	  showTodayText: true,
 	  showDot: true,
+	  showCurrentProgress: false,
       ...config
     };
   }
