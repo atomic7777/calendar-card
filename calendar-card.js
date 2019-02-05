@@ -291,9 +291,9 @@ class CalendarCard extends HTMLElement {
 	// setting text color, if todayColor or tomorrowColor is set in config
 	let todayClass;
 	if (this.isEventToday(event) && this.config.todayColor!='')
-		todayClass = `<div style="color: ${this.config.todayColor}">`
+		todayClass = `<div class="time" style="color: ${this.config.todayColor}">`
 	else if (this.isEventTomorrow(event) && this.config.tomorrowColor!='')
-		todayClass = `<div style="color: ${this.config.tomorrowColor}">`
+		todayClass = `<div class="time" style="color: ${this.config.tomorrowColor}">`
 	else
 		todayClass = `<div class="time">`
 	
@@ -304,7 +304,7 @@ class CalendarCard extends HTMLElement {
                 <div class="summary" ${this.getLinkHtml(event)}>
                   ${this.getTitleHtml(event)} 
                 </div>
-                ${this.getLocationHtml(event)}
+                ${this.getLocationHtml(event)} 
               </div>
               ${todayClass}${this.getTodayHtml(event)}${this.getTimeHtml(event)}</div>
             </div>
@@ -317,6 +317,7 @@ class CalendarCard extends HTMLElement {
    * @return {[type]} [description]
    */
   getTitleHtml(event){
+	  console.log(event);
 	let showDot = this.config.showDot ? `&#9679;&nbsp;` : ``  
     return this.config.showColors ? `<span style="color: ${event.color || ''};">${showDot}${event.title}</span>` : `${event.title}`;
   }
@@ -369,7 +370,7 @@ class CalendarCard extends HTMLElement {
 
     if (event.location && event.locationAddress) {
       locationHtml += `
-          <a href="https://maps.google.com/?q=${event.locationAddress}" 
+          <a href="https://maps.google.com/?q=${event.locationAddress}" target="_blank"> 
             ${event.location}
           </a>
         </div>`;
