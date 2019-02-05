@@ -101,8 +101,21 @@ class CalendarCard extends HTMLElement {
           color: var(--primary-color);
         }
 
+        .day-wrapper hr.now {
+            border-style: solid;
+            border-color: var(--primary-color);
+            border-width: 1px 0 0 0;
+            margin-top: -7px;
+            margin-left: 5px;
+        }
+
         .day-wrapper ha-icon {
           color: var(--paper-item-icon-color, #44739e);
+        }
+
+        .day-wrapper ha-icon.now {
+            height: 12px;
+            width: 12px;
         }
         
       </style>
@@ -238,7 +251,9 @@ class CalendarCard extends HTMLElement {
    * @return {[type]}       [description]
    */
   getEventHtml(event) {
-    if(event.type) return '';
+    if(event.type) {
+        return `<ha-icon icon="mdi:circle" class="now"></ha-icon><hr class="now" />`;
+    }
 	
 	// setting text color, if todayColor or tomorrowColor is set in config
 	let todayClass;
