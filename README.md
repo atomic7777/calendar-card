@@ -46,6 +46,7 @@ You should have setup Google calendar integration or Caldav integration in HomeA
 | todayColor | string | **Optional** | `none` Color setting for today events, to make it more visible. Default when not set.
 | tomorrowColor | string | **Optional** | `none` Color setting for tomorrow events, to make it more visible. Default when not set.
 | showDot | boolean | **Optional** | `true` Add or remove the big dot in event title.
+| showCurrentProgress | boolean | **Optional** | `false` Show progress of current event with a moving red dot (works only if showProgressBar is on) 
 
 <h2>Configuration</h2>
 Go to your config directory and create a www folder. Inside the www run
