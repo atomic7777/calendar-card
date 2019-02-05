@@ -485,7 +485,8 @@ class CalendarEvent {
    */
   get locationAddress() {
     if(this.calendarEvent.location) {
-      let address = this.calendarEvent.location.substring(this.calendarEvent.location.indexOf(',') + 1);
+      //let address = this.calendarEvent.location.substring(this.calendarEvent.location.indexOf(',') + 1); 
+	  let address = this.calendarEvent.location;
       return address.split(' ').join('+');
     }
     return undefined;
