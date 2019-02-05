@@ -301,7 +301,7 @@ class CalendarCard extends HTMLElement {
           <div class="event-wrapper">
             <div class="event" >
               <div class="info">
-                <div class="summary" >
+                <div class="summary" ${this.getLinkHtml(event)}>
                   ${this.getTitleHtml(event)} 
                 </div>
                 ${this.getLocationHtml(event)}
