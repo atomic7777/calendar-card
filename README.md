@@ -47,6 +47,10 @@ You should have setup Google calendar integration or Caldav integration in HomeA
 | tomorrowColor | string | **Optional** | `none` Color setting for tomorrow events, to make it more visible. Default when not set.
 | showDot | boolean | **Optional** | `true` Add or remove the big dot in event title.
 | showCurrentProgress | boolean | **Optional** | `false` Show progress of current event with a moving red dot (works only if showProgressBar is on) 
+| textSizeSummary | string | **Optional** | `100` Event title text size (percent of default font size) 
+| textSizeTime | string | **Optional** | `90` Event time (bottom line) text size (percent of default font size) 
+| textSizeLocation | string | **Optional** | `90` Location link text size (percent of default font size) 
+
 
 <h2>Configuration</h2>
 Go to your config directory and create a www folder. Inside the www run
@@ -74,6 +78,9 @@ views:
     numberOfDays: 14
     entities:
       - calendar.ljmerzagmailcom
+      - entity: calendar.with_red_color_title
+        color: red
+      - calendar.atomic7777 
 ```
 
 <h2>You want more than 5 Google events?</h2>
