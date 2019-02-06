@@ -71,7 +71,7 @@ class CalendarCard extends HTMLElement {
         }
 
         .day-wrapper .summary {
-          font-size: 1.2em;
+		font-size: ${this.config.textSizeSummary}%;
 		  cursor: pointer;
         }
 
@@ -100,13 +100,14 @@ class CalendarCard extends HTMLElement {
 
         .day-wrapper .time {
           color: var(--primary-color);
+		  font-size: ${this.config.textSizeTime}%;
         }
 
         .day-wrapper hr.now {
             border-style: solid;
             border-color: var(--primary-color);
             border-width: 1px 0 0 0;
-            margin-top: -7px;
+            margin-top: -8px;
             margin-left: 5px;
 			width: 100%;
         }
@@ -156,12 +157,16 @@ class CalendarCard extends HTMLElement {
     const end = today.add(this.config.numberOfDays, 'days').format(dateFormat);
 
     // generate urls for calendars and get each calendar data
-    const urls = entities.map(entity => `calendars/${entity}?start=${start}Z&end=${end}Z`);
+	const urls = entities.map(entity => `calendars/${entity.entity}?start=${start}Z&end=${end}Z`);	
     let allResults = await this.getAllUrls(urls);
 
-    // convert each calendar object to a UI event
-    let events = [].concat.apply([], allResults).map(event => new CalendarEvent(event));
-    
+	// creating CalendarEvents and passing color settings for different calendars
+	let events= [].concat.apply([], (allResults.map((result,i) => {
+			return result.map(r => {
+				return(new CalendarEvent(r,this.config.entities[i].color===undefined ? 'var(--primary-text-color)' :this.config.entities[i].color )
+				)
+			});
+		})))
 
     // show progress bar if turned on
     if (this.config.showProgressBar && events.length > 0 && moment().format('DD') === moment(events[0].startDateTime).format('DD')) {
@@ -317,7 +322,6 @@ class CalendarCard extends HTMLElement {
    * @return {[type]} [description]
    */
   getTitleHtml(event){
-	  console.log(event);
 	let showDot = this.config.showDot ? `&#9679;&nbsp;` : ``  
     return this.config.showColors ? `<span style="color: ${event.color || ''};">${showDot}${event.title}</span>` : `${event.title}`;
   }
@@ -370,7 +374,7 @@ class CalendarCard extends HTMLElement {
 
     if (event.location && event.locationAddress) {
       locationHtml += `
-          <a href="https://maps.google.com/?q=${event.locationAddress}" target="_blank"> 
+          <a href="https://maps.google.com/?q=${event.locationAddress}" target="_blank" style="font-size: ${this.config.textSizeLocation}%"> 
             ${event.location}
           </a>
         </div>`;
@@ -403,8 +407,19 @@ class CalendarCard extends HTMLElement {
 	  showTodayText: true,
 	  showDot: true,
 	  showCurrentProgress: false,
+	  textSizeSummary: '100',
+	  textSizeTime: '90',
+	  textSizeLocation: '90',
       ...config
     };
+	
+	if (typeof this.config.entities === 'string')
+      this.config.entities = [{entity: config.entities}];
+    this.config.entities.forEach((entity, i) => {
+      if (typeof entity === 'string')
+        this.config.entities[i] = { entity: entity };
+	});
+	
   }
 
   /**
@@ -469,8 +484,9 @@ class CalendarEvent {
    * @param  {[type]} calendarEvent [description]
    * @return {[type]} [description]
    */
-  constructor(calendarEvent) {
+  constructor(calendarEvent,color) {
     this.calendarEvent = calendarEvent;
+	this.color = color;
   }
 
   /**
@@ -502,6 +518,7 @@ class CalendarEvent {
     return this.calendarEvent.htmlLink;
   }
 
+ 
   /**
    * get the title for an event
    * @return {[type]} [description]
@@ -557,6 +574,14 @@ class CalendarEvent {
     let diffInHours = end.diff(start, 'hours');
     return diffInHours >= 24;
   }
+ 
+  get color() {
+    return this._color;
+  }
+  set color(color) {
+    this._color = color;
+}  
+  
 }
 
 /**
