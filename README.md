@@ -50,6 +50,7 @@ You should have setup Google calendar integration or Caldav integration in HomeA
 | textSizeSummary | string | **Optional** | `100` Event title text size (percent of default font size) 
 | textSizeTime | string | **Optional** | `90` Event time (bottom line) text size (percent of default font size) 
 | textSizeLocation | string | **Optional** | `90` Location link text size (percent of default font size) 
+| showMonth | boolean | **Optional** | `false` Show month in date on the left side
 
 
 <h2>Configuration</h2>
