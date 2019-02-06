@@ -259,6 +259,7 @@ class CalendarCard extends HTMLElement {
     return `
         <div class="calendar-day">
           <div class="${className}">
+			${this.config.showMonth ? `<div>${momentDay.format('MMM')}</div>` : ''}
             <div>${momentDay.format('DD')}</div>
             <div>${momentDay.format('ddd')}</div>
           </div>
@@ -410,6 +411,7 @@ class CalendarCard extends HTMLElement {
 	  textSizeSummary: '100',
 	  textSizeTime: '90',
 	  textSizeLocation: '90',
+	  showMonth: false,
       ...config
     };
 	
