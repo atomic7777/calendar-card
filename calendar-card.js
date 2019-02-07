@@ -1,7 +1,9 @@
 /**
  * 
  */
-class CalendarCard extends HTMLElement {
+
+
+ class CalendarCard extends HTMLElement {
 
   
   
@@ -62,7 +64,7 @@ class CalendarCard extends HTMLElement {
           flex-direction: column;
           align-items: center;
           justify-content: top;
-          flex: 0 1 40px;
+          flex: 0 0 40px;
           padding-top: 10px;
         }
 
@@ -71,7 +73,7 @@ class CalendarCard extends HTMLElement {
         }
 
         .day-wrapper .summary {
-		font-size: ${this.config.textSizeSummary}%;
+		  font-size: ${this.config.textSizeSummary}%;
 		  cursor: pointer;
         }
 
@@ -115,7 +117,7 @@ class CalendarCard extends HTMLElement {
         .day-wrapper ha-icon {
 		  height: 16px;
           width: 16px;
-          color: var(--paper-item-icon-color, #44739e);
+          color: ${this.config.mapIconColor};
         }
 
         .day-wrapper ha-icon.now {
@@ -374,8 +376,10 @@ class CalendarCard extends HTMLElement {
     }
 
     if (event.location && event.locationAddress) {
-      locationHtml += `
-          <a href="https://maps.google.com/?q=${event.locationAddress}" target="_blank" style="font-size: ${this.config.textSizeLocation}%"> 
+		let linkStyle=''
+		this.config.linkColor!='' ? linkStyle=` color: ${this.config.linkColor} ` : ''
+		locationHtml += `
+          <a href="https://maps.google.com/?q=${event.locationAddress}" target="_blank" style="${linkStyle}; font-size: ${this.config.textSizeLocation}%"> 
             ${event.location}
           </a>
         </div>`;
@@ -411,6 +415,8 @@ class CalendarCard extends HTMLElement {
 	  textSizeSummary: '100',
 	  textSizeTime: '90',
 	  textSizeLocation: '90',
+	  linkColor: '',
+	  mapIconColor: 'var(--paper-item-icon-color, #44739e)',
 	  showMonth: false,
       ...config
     };
