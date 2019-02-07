@@ -51,7 +51,8 @@ You should have setup Google calendar integration or Caldav integration in HomeA
 | textSizeTime | string | **Optional** | `90` Event time (bottom line) text size (percent of default font size) 
 | textSizeLocation | string | **Optional** | `90` Location link text size (percent of default font size) 
 | showMonth | boolean | **Optional** | `false` Show month in date on the left side
-
+| mapIconColor | string | **Optional** | `default HA color` Color of the location icon
+| linkColor | string | **Optional** | `default link color` Color or link text
 
 <h2>Configuration</h2>
 Go to your config directory and create a www folder. Inside the www run
