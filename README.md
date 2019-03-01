@@ -1,6 +1,8 @@
 <h1 align="center">Calendar Card for Home Assistant</h1>
 
-This fork will be no longer supported by me (but it's still working), because I wrote a new card - ![atomic-card](https://github.com/atomic7777/atomic_calendar)
+This fork will be no longer supported by me (but it's still working), because I wrote a new calendar - ![atomic-card](https://github.com/atomic7777/atomic_calendar)
+If you want to use it anyway, and have some needs, write to me or open an issue.
+If you need more than 5 events from Google Calendar, updated instructions are in my new atomic-calendar Readme.
 
 <p align="center">
   <img src='https://i.imgur.com/86RGw5W.png' />
