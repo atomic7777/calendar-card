@@ -1,5 +1,7 @@
 <h1 align="center">Calendar Card for Home Assistant</h1>
 
+This fork will be no longer supported by me (but it's still working), because I wrote a new card - ![atomic-card](https://github.com/atomic7777/atomic_calendar)
+
 <p align="center">
   <img src='https://i.imgur.com/86RGw5W.png' />
 </p>
